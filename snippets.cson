@@ -27,3 +27,21 @@
     sys.setdefaultencoding('utf8')
     $1
     """
+  'main body':
+    'prefix': 'main'
+    'body':"""
+    #!/usr/bin/python
+    #encoding:utf8
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf8')
+
+
+    def main():
+      pass
+
+
+    if __name__ == '__main__':
+      main()
+    $1
+    """
