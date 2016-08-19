@@ -17,12 +17,12 @@ conf = [
         'org_name': '上海儿童医院',
         'ip': '172.18.11.3',
         'hostname': 'scmc',
-        'host_key': 'dev1'
+        'host_key': 'scmc'
     },
     {
         'org_key': 'xinhuamed',
         'org_name': '上海新华医院',
-        'ip': '172.18.11.3',
+        'ip': '172.18.7.3',
         'hostname': 'etl1',
         'host_key': 'xinhua'
     },
@@ -53,5 +53,36 @@ conf = [
         'ip': '172.18.2.3',
         'hostname': 'etl1',
         'host_key': 'sysucc'
+    },
+    {
+        'org_key': 'chinablood',
+        'org_name': '天津血研所',
+        'ip': '172.18.3.1',
+        'hostname': 's1.chinablood.com',
+        'host_key': 'chinablood'
+    },
+    {
+        'org_key': 'uhcmu',
+        'org_name': '重庆大学城医院',
+        'ip': '10.1.1.54',
+        'hostname': 's1.uhcmu.com',
+        'host_key': 'uhcmu'
+    },
+    {
+        'org_key': 'tijmu',
+        'org_name': '天津代谢病医院 ',
+        'ip': '172.18.4.1',
+        'hostname': 's1.tijmu.com',
+        'host_key': 'tijmu'
+    },
+    {
+        'org_key': 'fyyy',
+        'org_name': '福建医科大学第一附属医院 ',
+        'ip': '172.18.9.9',
+        'hostname': 'hadoop1.fyyy.com',
+        'host_key': 'fyyy'
     }
+
+
+
 ]

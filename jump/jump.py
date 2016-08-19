@@ -1,12 +1,18 @@
 #!/usr/bin/python
 # coding:utf8
 
-# Description: host configuration
+# Description: util for remote host login
 # Author: zirui
+# TODO:
+# 1. support add host interactively
+# 2. support one command installation
+# 3. add fuzzy key match support
+
 
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
+
 
 import logging
 import time
@@ -15,7 +21,7 @@ import subprocess
 import json
 from argparse import ArgumentParser
 from conf import conf
-from fabric import *
+#from fabric import *
 
 
 def is_chinese(uchar):
@@ -60,16 +66,6 @@ def pprint_table(rows, align='left', fs=sys.stdout):
         print >>fs, " | ".join(align_str(col, width, align) for width, col in zip(widths, row))
 
 
-def get_arguments():
-    '''get arugments
-    '''
-    parser = ArgumentParser("Strategy Driver")
-    parser.add_argument("--host", '-H', dest='host', help='remote host ip')
-    parser.add_argument("--ip", dest='host', help='remote host ip')
-    parser.add_argument("--key", '-k', dest='key', help='host key')
-    parser.add_argument("--list", '-l', dest='list_info', action='store_true', help='list host')
-    return parser.parse_args()
-
 
 #env.hosts = ['userX@serverX']
 def copy():
@@ -83,6 +79,12 @@ def copy():
 class HostJumper:
     def __init__(self):
         self.conf = conf
+        self.keys_conf = {}
+        self.init_keys()
+
+    def init_keys(self):
+        for r in self.conf:
+            self.keys_conf[r['host_key']] = r
 
     def add_host(self, ip, key, name):
         pass
@@ -95,24 +97,45 @@ class HostJumper:
             data.append([r[k] for k in 'host_key', 'org_key', 'org_name', 'hostname', 'ip'])
         pprint_table(data)
 
+    def login(self, key, user='zhangzirui', dev_host='172.16.124.19'):
+        print self.keys_conf.keys()
+        if key not in self.keys_conf:
+            print >> sys.stderr, 'unknow key'
+            return 0
+        conf = self.keys_conf[key]
+        host = conf['ip']
+        cmd = 'ssh -t %s@%s ssh %s@%s' % (user, dev_host, user, host)
+        print cmd
+        os.system(cmd)
+
     def _update(self):
         pass
 
 
-def show_host():
-    for r in conf:
-        print json.dumps(r, ensure_ascii=False, indent=4)
-
-
-def login(args):
-    jumper = HostJumper()
-    if args.list_info:
-        jumper.show_host()
+def get_arguments():
+    '''get arugments
+    '''
+    parser = ArgumentParser("Strategy Driver")
+    parser.add_argument("--host", '-H', dest='host', help='remote host ip')
+    parser.add_argument("--ip", dest='host', help='remote host ip')
+    parser.add_argument("--key", '-k', dest='key', help='host key')
+    #parser.add_argument("-key", metavar='in-file', help='host key')
+    parser.add_argument("--list", '-l', dest='list_info', action='store_true', help='list host')
+    parser.add_argument("--to", '-t', dest='to_key',  help='dest host key')
+    parser.add_argument("--user", '-u', dest='user', default='zhangzirui', help='user name')
+    return parser.parse_args()
 
 
 def main():
     args = get_arguments()
-    login(args)
+    jumper = HostJumper()
+    if args.list_info:
+        jumper.show_host()
+    elif args.to_key:
+        jumper.login(args.to_key, args.user)
+    else:
+        print args
+        pass
 
 
 if __name__ == '__main__':
