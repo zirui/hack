@@ -16,9 +16,9 @@ sys.setdefaultencoding('utf-8')
 import spur
 #sys.exit()
 
-shell = spur.SshShell(hostname="172.16.124.19",
-                      username="zhangzirui",
-                      password="1FDojMjP")
+shell = spur.SshShell(hostname="xxxx",
+                      username="user",
+                      password="yyy")
 with shell:
     result = shell.run("display version")
 print result.output
