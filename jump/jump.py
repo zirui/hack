@@ -97,7 +97,7 @@ class HostJumper:
             data.append([r[k] for k in 'host_key', 'org_key', 'org_name', 'hostname', 'ip'])
         pprint_table(data)
 
-    def login(self, key, user='zhangzirui', dev_host='172.16.124.19'):
+    def login(self, key, user='user', dev_host='xxx.xx.x.xx'):
         print self.keys_conf.keys()
         if key not in self.keys_conf:
             print >> sys.stderr, 'unknow key'
